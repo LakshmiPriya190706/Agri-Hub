@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>👷 Hire Workers</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+    }
+
+    header {
+      background-color: #74b566;
+      color: white;
+      padding: 2rem 1rem;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2rem;
+    }
+
+    header p {
+      margin-top: 0.5rem;
+      font-size: 1rem;
+    }
+
+    .btn {
+      background-color: #ff7f50;
+      color: white;
+      padding: 10px 20px;
+      text-decoration: none;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .card-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 2rem;
+      gap: 20px;
+    }
+
+    .card {
+      background-color: white;
+      border-radius: 10px;
+      padding: 1rem;
+      width: 250px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s;
+    }
+
+    .card:hover {
+      transform: scale(1.03);
+      background-color: #f9f9f9;
+    }
+
+    .card h3 {
+      margin-top: 0;
+      color: #2f4858;
+    }
+
+    .btn-small {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 6px 12px;
+      background-color: #2f4858;
+      color: white;
+      text-decoration: none;
+      border-radius: 4px;
+      font-size: 0.85rem;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      padding-top: 80px;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.5);
+    }
+
+    .modal-content {
+      background-color: white;
+      margin: auto;
+      padding: 2rem;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 400px;
+      position: relative;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      color: #aaa;
+      font-size: 22px;
+      cursor: pointer;
+    }
+
+    .close-btn:hover {
+      color: black;
+    }
+
+    form label {
+      display: block;
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+
+    form input, form textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    form input[type="submit"] {
+      background-color: #2f4858;
+      color: white;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+      margin-top: 1.2rem;
+    }
+
+    form input[type="submit"]:hover {
+      background-color: #1e2f3a;
+    }
+
+    @media (max-width: 600px) {
+      .card {
+        width: 90%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>👷 Hire Workers</h1>
+    <p>Post or find temporary jobs for agricultural work</p>
+    <button class="btn" onclick="openModal()">+ Post Job</button>
+  </header>
+
+  <main class="card-container" id="hire-list">
+    <div class="card">
+      <h3>Job: Harvesting Paddy</h3>
+      <p><strong>Wage:</strong> ₹500/day</p>
+      <p><strong>Duration:</strong> 5 days</p>
+      <p><strong>Contact:</strong> 9876543210</p>
+      <a href="#" class="btn-small">Apply</a>
+    </div>
+
+    <div class="card">
+      <h3>Job: Drip Irrigation Setup</h3>
+      <p><strong>Wage:</strong> ₹700/day</p>
+      <p><strong>Duration:</strong> 2 days</p>
+      <p><strong>Contact:</strong> 9090909090</p>
+      <a href="#" class="btn-small">Apply</a>
+    </div>
+  </main>
+
+  <!-- Modal Form -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeModal()">&times;</span>
+      <h2>Post a Job</h2>
+      <form id="hireForm">
+        <label for="job">Job Title</label>
+        <input type="text" id="job" required placeholder="e.g. Weeding Farm Land">
+
+        <label for="wage">Wage (₹/day)</label>
+        <input type="text" id="wage" required placeholder="e.g. 450">
+
+        <label for="duration">Duration</label>
+        <input type="text" id="duration" required placeholder="e.g. 3 days">
+
+        <label for="contact">Contact Number</label>
+        <input type="text" id="contact" required placeholder="e.g. 9999999999">
+
+        <input type="submit" value="Post Job">
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const modal = document.getElementById("modal");
+
+    function openModal() {
+      modal.style.display = "block";
+    }
+
+    function closeModal() {
+      modal.style.display = "none";
+    }
+
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        closeModal();
+      }
+    }
+
+    document.getElementById("hireForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const job = document.getElementById("job").value;
+      const wage = document.getElementById("wage").value;
+      const duration = document.getElementById("duration").value;
+      const contact = document.getElementById("contact").value;
+
+      const newCard = document.createElement("div");
+      newCard.classList.add("card");
+      newCard.innerHTML = `
+        <h3>Job: ${job}</h3>
+        <p><strong>Wage:</strong> ₹${wage}/day</p>
+        <p><strong>Duration:</strong> ${duration}</p>
+        <p><strong>Contact:</strong> ${contact}</p>
+        <a href="#" class="btn-small">Apply</a>
+      `;
+
+      document.getElementById("hire-list").appendChild(newCard);
+
+      this.reset();
+      closeModal();
+    });
+  </script>
+
+</body>
+</html>

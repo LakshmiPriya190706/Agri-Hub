@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>🌾 Auction - FarmConnect</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom, #f9f5ec, #e0e9db);
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #7da453;
+      padding: 20px;
+      text-align: center;
+      color: white;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 20px;
+      background-color: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      color: #4b702d;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+      color: #3e5d3e;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    input[type="datetime-local"] {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+
+    button {
+      background-color: #7da453;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #5c7d3d;
+    }
+
+    .auction-list {
+      margin-top: 30px;
+    }
+
+    .auction-item {
+      border: 1px solid #cde3b2;
+      padding: 15px;
+      margin-bottom: 15px;
+      border-radius: 10px;
+      background-color: #f5fbe6;
+    }
+
+    .auction-item h4 {
+      margin: 0;
+      color: #4b702d;
+    }
+
+    .auction-item p {
+      margin: 5px 0;
+    }
+
+    .bid-form {
+      margin-top: 10px;
+    }
+
+    .bid-form input[type="number"] {
+      width: 200px;
+      margin-right: 10px;
+    }
+
+    .no-auctions {
+      text-align: center;
+      color: #777;
+    }
+
+    .timestamp {
+      font-size: 0.9rem;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+
+  <header>🌻 Auction Market - FarmConnect</header>
+
+  <div class="container">
+    <h2>📣 Post Your Auction</h2>
+    <div class="form-group">
+      <label for="product">Product Name</label>
+      <input type="text" id="product" placeholder="e.g., Organic Wheat" />
+    </div>
+    <div class="form-group">
+      <label for="basePrice">Base Price (₹)</label>
+      <input type="number" id="basePrice" placeholder="e.g., 1000" />
+    </div>
+    <div class="form-group">
+      <label for="contact">Contact Number</label>
+      <input type="text" id="contact" placeholder="e.g., 9876543210" />
+    </div>
+    <div class="form-group">
+      <label for="endTime">Auction End Time</label>
+      <input type="datetime-local" id="endTime" />
+    </div>
+    <button onclick="postAuction()">Post Auction</button>
+
+    <div class="auction-list" id="auctionList">
+      <h2>🔨 Live Auctions</h2>
+      <p class="no-auctions" id="noAuctions">No auctions yet. Be the first to post!</p>
+    </div>
+  </div>
+
+  <script>
+    function postAuction() {
+      const product = document.getElementById("product").value.trim();
+      const basePrice = document.getElementById("basePrice").value.trim();
+      const contact = document.getElementById("contact").value.trim();
+      const endTime = document.getElementById("endTime").value;
+      const auctionList = document.getElementById("auctionList");
+      const noAuctions = document.getElementById("noAuctions");
+
+      if (product && basePrice && contact && endTime) {
+        const now = new Date();
+        const postedTime = now.toLocaleString("en-GB");
+
+        const endDateTime = new Date(endTime);
+        const endTimeFormatted = endDateTime.toLocaleString("en-GB");
+
+        const auctionItem = document.createElement("div");
+        auctionItem.className = "auction-item";
+        auctionItem.innerHTML = `
+          <h4>🌾 ${product}</h4>
+          <p><strong>Base Price:</strong> ₹${basePrice}</p>
+          <p><strong>Contact:</strong> ${contact}</p>
+          <p class="timestamp">📅 Posted on: ${postedTime}</p>
+          <p class="timestamp">⏰ Ends on: ${endTimeFormatted}</p>
+          <form class="bid-form" onsubmit="submitBid(event)">
+            <label>💰 Enter Your Bid:</label>
+            <input type="number" required placeholder="₹ Amount" />
+            <button type="submit">Submit Bid</button>
+          </form>
+        `;
+        auctionList.appendChild(auctionItem);
+        noAuctions.style.display = "none";
+
+        // Clear form
+        document.getElementById("product").value = "";
+        document.getElementById("basePrice").value = "";
+        document.getElementById("contact").value = "";
+        document.getElementById("endTime").value = "";
+      } else {
+        alert("Please fill in all fields.");
+      }
+    }
+
+    function submitBid(event) {
+      event.preventDefault();
+      const input = event.target.querySelector("input[type='number']");
+      const bidValue = input.value;
+      if (bidValue) {
+        alert(`✅ Bid of ₹${bidValue} submitted!`);
+        input.value = "";
+      }
+    }
+  </script>
+
+</body>
+</html>
